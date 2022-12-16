@@ -88,26 +88,7 @@ exports.createUser = async (req, res) => {
   }
 };
 
-const sqllogin = async (request, response) => {
-  try {
-    const { email, password } = request.body;
 
-    const data = await firebase
-      .auth()
-      .signInWithEmailAndPassword(email, password);
-
-    const token = await data.user.getIdToken();
-
-    const user = await admin.auth().getUser(data.user.uid);
-
-    const refreshToken = data.user.toJSON()?.stsTokenManager?.refreshToken;
-
-    return response.status(200).json({ token, user, refreshToken });
-  } catch (error) {
-    console.log(error);
-    return response.status(500).json({ error, message: error.toString() });
-  }
-};
 
 exports.Login = async (request, response) => {
     try {
